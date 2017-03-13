@@ -1,0 +1,3 @@
+rootProject.name = 'Binary2Text'
+
+include ':app'
