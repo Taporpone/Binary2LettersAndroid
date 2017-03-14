@@ -3,51 +3,67 @@ import { AppRegistry, View, StyleSheet, TextInput, Button, ScrollView, Switch, A
 import Text from 'react-native-text';
 
 const styles = StyleSheet.create({
-  welcome: {
+  app: {
+
+  },
+  header: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#BEB5C6'
+  },
+  baner: {
     color: 'deepskyblue',
     fontWeight: 'bold',
+    fontFamily: 'Arial Rounded MT Bold',
     fontSize: 20,
     textAlign: 'center',
     marginTop: 30,
-    marginBottom: 30
+    marginBottom: 30,
   },
-  default: {
+  switchContainer: {
+    marginTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  switchText: {
+    fontFamily: 'Arial Rounded MT Bold',
     padding: 10,
   },
+  switch: {
+  },
+  inputContainer: {
+
+  },
   input: {
-    marginTop: 30,
+    marginTop: 15,
     height: 100,
-    borderColor: 'gray',
+    fontFamily: 'Arial Rounded MT Bold',
     borderWidth: 1,
     padding: 5,
-    fontSize: 20
+    fontSize: 20,
+    backgroundColor: '#E8D7F4',
+    borderWidth: 2,
+    borderColor: '#756B7C',
+    borderRadius: 8,
   },
   buttons: {
-    marginTop:30,
+    marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  button: {
+  buttonsButton: {
     color: 'green',
+    fontFamily: 'Arial Rounded MT Bold',
   },
-  switch: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+  scrollView: {
+
+  },
+  scrollViewText: {
+    fontFamily: 'Arial Rounded MT Bold',
+  },
 });
 
-class Welcome extends React.Component {
-  render(){
-    return(
-      <View>
-        <Text style={styles.welcome}>Convert Binary2Text</Text>
-      </View>
-    );
-  }
-}
-
 class Body extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       text: '',
@@ -58,81 +74,88 @@ class Body extends React.Component {
     this.binaryToText = this.binaryToText.bind(this);
     this.textToBinary = this.textToBinary.bind(this);
   }
-  clearInput(){
-    this.setState({text:''});
-    this.setState({binary:''});
+  clearInput() {
+    this.setState({ text: '' });
+    this.setState({ binary: '' });
   }
-  binaryToText(){
+  binaryToText() {
     const output = [];
     const formattedInput = this.state.text.split('');
     formattedInput.forEach((item) => output.push(item.charCodeAt(0).toString(2)));
-    this.setState({binary: output.join(' ')});
+    this.setState({ binary: output.join(' ') });
   }
-  textToBinary(){
+  textToBinary() {
     const output = [];
     const validateRegex = /^[0-1\s]+$/;
     let formattedInput;
-    if (!this.state.binary.match(validateRegex)){
+    if (!this.state.binary.match(validateRegex)) {
       Alert.alert(
         'Unsupoorted chars',
-        'Please use only 0 1 and space',[
-          {text: 'Ok', onPress: () => this.clearInput()},
+        'Please use only 0 1 and space', [
+          { text: 'Ok', onPress: () => this.clearInput() },
         ]
       )
-    }else{
-      if (this.state.binary.match(/^[\S]+$/)){
-        const addedSpaces = this.state.binary.replace(/(.{7})/g,'$1 ');
+    } else {
+      if (this.state.binary.match(/^[\S]+$/)) {
+        const addedSpaces = this.state.binary.replace(/(.{7})/g, '$1 ');
         formattedInput = addedSpaces.split(' ');
-      }else{
+      } else {
         formattedInput = this.state.binary.split(' ');
       }
-      formattedInput.forEach((item) => output.push(String.fromCharCode(parseInt(item,2))));
+      formattedInput.forEach((item) => output.push(String.fromCharCode(parseInt(item, 2))));
       console.log(output.join(''));
-      this.setState({text: output.join('')});
+      this.setState({ text: output.join('') });
     }
   }
-
   handleTextChange(text) {
-    const trimmedText = text.trim();
-    if (this.state.textToBinary){
-      this.setState({text: trimmedText});
-    }else{
-      this.setState({binary: trimmedText});
+    if (this.state.textToBinary) {
+      this.setState({ text: text });
+    } else {
+      this.setState({ binary: text });
     }
   }
-
-  render(){
-    const { textToBinary, text, binary} = this.state;
+  render() {
+    const { textToBinary, text, binary } = this.state;
     return (
-      <View style={styles.default}>
-        <View style={styles.switch}>
-          <Text>Binary to Text</Text>
+      <View style={styles.app}>
+        <View style={styles.header}>
+          <Text style={styles.baner}>Convert Binary2Text</Text>
+        </View>
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchText}>Binary to Text</Text>
           <Switch
-            onValueChange={(value) => this.setState({textToBinary:value})}
+            style={styles.switch}
+            thumbTintColor= 'gray'
+            tintColor= 'black'
+            onValueChange={(value) => this.setState({ textToBinary: value })}
             value={textToBinary}
           />
-          <Text>Text to Binary</Text>
+          <Text style={styles.switchText}>Text to Binary</Text>
         </View>
-        <TextInput
-          {...this.props}
-          style={styles.input}
-          placeholder = 'Write here!'
-          onChangeText = { text => this.handleTextChange(text) }
-          value = {textToBinary ? text : binary}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            {...this.props}
+            style={styles.input}
+            placeholder='Write here!'
+            onChangeText={text => this.handleTextChange(text)}
+            value={textToBinary ? text : binary}
+          />
+        </View>
         <View style={styles.buttons}>
           <Button
-            style = {{color:'green'}}
-            title = 'Clear'
-            onPress = {this.clearInput} 
+            style={styles.buttonsButton}
+            color= 'green'
+            title='Clear'
+            onPress={this.clearInput}
           />
           <Button
-            title = 'Convert'
-            onPress = {textToBinary ? this.binaryToText : this.textToBinary }
+            style={styles.buttonsButton}
+            title='Convert'
+            onPress={textToBinary ? this.binaryToText : this.textToBinary}
           />
         </View>
-        <ScrollView>
-          <Text style={styles.default}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.scrollViewText}>
             {textToBinary ? binary : text}
           </Text>
         </ScrollView>
@@ -145,8 +168,7 @@ export default class TestApp extends Component {
   render() {
     return (
       <View>
-        <Welcome />
-        <Body multiline = {true} autoCorrect = {false}/>
+        <Body multiline={true} autoCorrect={false} />
       </View>
     );
   }
