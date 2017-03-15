@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet, TextInput, Button, ScrollView, Switch, Alert } from 'react-native';
+import { AppRegistry, View, StyleSheet, TextInput, Button, ScrollView, Switch, Alert, Image } from 'react-native';
 import Text from 'react-native-text';
 
 const styles = StyleSheet.create({
   app: {
-
+    flex: 1,
+    flexDirection: 'column'
   },
   header: {
     borderBottomWidth: 2,
-    borderBottomColor: '#BEB5C6'
+    borderBottomColor: '#BEB5C6',
+    flex: 1
   },
   baner: {
     color: 'deepskyblue',
@@ -20,7 +22,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   switchContainer: {
-    marginTop: 15,
+    flex: 1,
+    // marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
   switch: {
   },
   inputContainer: {
-
+    flex: 1
   },
   input: {
     marginTop: 15,
@@ -46,7 +49,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttons: {
-    marginTop: 30,
+    flex: 1,
+    // marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial Rounded MT Bold',
   },
   scrollView: {
-
+    flex: 1
   },
   scrollViewText: {
     fontFamily: 'Arial Rounded MT Bold',
@@ -119,7 +123,16 @@ class Body extends React.Component {
     return (
       <View style={styles.app}>
         <View style={styles.header}>
-          <Text style={styles.baner}>Convert Binary2Text</Text>
+          <Image
+            source={require('./assets/img/baner.png')}
+            style={{
+              flex: 1,
+              width: null,
+              height: null,
+              resizeMode: 'contain'              
+            }}
+          />
+          {/*<Text style={styles.baner}>Convert Binary2Text</Text>*/}
         </View>
         <View style={styles.switchContainer}>
           <Text style={styles.switchText}>Binary to Text</Text>
@@ -141,6 +154,7 @@ class Body extends React.Component {
             value={textToBinary ? text : binary}
           />
         </View>
+        {/* @see: https://facebook.github.io/react-native/docs/touchableopacity.html*/}
         <View style={styles.buttons}>
           <Button
             style={styles.buttonsButton}
@@ -167,7 +181,7 @@ class Body extends React.Component {
 export default class TestApp extends Component {
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Body multiline={true} autoCorrect={false} />
       </View>
     );
