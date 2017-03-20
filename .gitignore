@@ -129,4 +129,4 @@ DerivedData
 *.ipa
 *.xcuserstate
 
-# End of https://www.gitignore.io/api/macos,windows,node
+gradle.properties
